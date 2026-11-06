@@ -442,6 +442,12 @@ footer .mono{font-family:var(--mono)}
 .cx-sn span{display:block;min-height:40px;padding:9px 12px;text-align:center;font-weight:600;background:var(--panel);border:1px solid var(--line);border-radius:8px;transition:background-color .14s var(--ease-out),border-color .14s var(--ease-out)}
 .cx-sn input:checked + span{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .cx-sn input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+.cx-foto-titulo{font:600 10.5px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cx-foto-botoes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field label.cx-foto-opcao{position:relative;font:inherit;letter-spacing:normal;text-transform:none;color:var(--text);cursor:pointer}
+.cx-foto-opcao input{position:absolute;opacity:0;width:1px;height:1px}
+.cx-foto-opcao .btn{width:100%;height:100%;min-height:44px;justify-content:center;text-align:center}
+.cx-foto-opcao input:focus-visible + .btn{outline:2px solid var(--accent);outline-offset:2px}
 .cx-foto{display:block;max-width:100%;max-height:220px;margin:8px 0;border-radius:8px;border:1px solid var(--line)}
 .cx-foto-aviso{margin:4px 0 0}
 .cx-reg-materiais{display:flex;flex-direction:column;gap:12px;margin-top:12px}
@@ -3524,7 +3530,7 @@ document.addEventListener("DOMContentLoaded", iniciarApp);
                 <label><input type="radio" name="${campo}" value="sim"${r[campo] === true ? " checked" : ""}><span>Sim</span></label>
                 <label><input type="radio" name="${campo}" value="nao"${r[campo] === false ? " checked" : ""}><span>Não</span></label>
               </fieldset>`).join("")}
-            <div class="field full"><label for="cxFoto">Foto de evidência (opcional)</label><input id="cxFoto" type="file" accept="image/*"><p class="warn cx-foto-aviso" role="alert" hidden></p><div class="cx-foto-estado"></div></div>
+            <div class="field full"><span class="cx-foto-titulo" id="cxFotoTitulo">Foto de evidência (opcional)</span><div class="cx-foto-botoes" role="group" aria-labelledby="cxFotoTitulo"><label class="cx-foto-opcao"><input class="cx-foto-input" type="file" accept="image/*" capture="environment"><span class="btn">📷 Tirar foto</span></label><label class="cx-foto-opcao"><input class="cx-foto-input" type="file" accept="image/*"><span class="btn">🖼️ Escolher da galeria</span></label></div><p class="warn cx-foto-aviso" role="alert" hidden></p><div class="cx-foto-estado"></div></div>
           </div>
         </div>
         <p class="note">A quantidade é a que fica na caixa no fim da verificação, já depois de repor. Em "Reposto", indique as unidades colocadas nesta verificação.</p>
@@ -3581,7 +3587,7 @@ document.addEventListener("DOMContentLoaded", iniciarApp);
   function aoMudar(e){
     const a = e.target;
     if(a.type === "radio"){ r[a.name] = a.value === "sim"; guardar(); }
-    else if(a.id === "cxFoto") escolherFoto(a);
+    else if(a.classList.contains("cx-foto-input")) escolherFoto(a);
   }
   function aoClicar(e){
     const b = e.target.closest("[data-acao]");
